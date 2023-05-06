@@ -1,6 +1,8 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
+import { connectToDB } from '@utils/database';
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -9,7 +11,19 @@ const handler = NextAuth({
     }),
   ],
   async session({ session }: { session: any }) {},
-  async signIn({ profile }: { profile: string }) {},
+  async signIn({ profile }: { profile: string }) {
+    try {
+      await connectToDB();
+
+      // check if user already exist
+
+      // create new user
+    } catch (error) {
+      console.log('Failed to Sign In: ', error);
+
+      return false;
+    }
+  },
   callbacks: {
     session({ session, token, user }) {
       return session; // The return type will match the one returned in `useSession()`
