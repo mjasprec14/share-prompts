@@ -14,7 +14,7 @@ import {
 import { BuiltInProviderType } from 'next-auth/providers';
 
 export default function Nav() {
-  const isUserLoggedIn: boolean = true;
+  const { data: session } = useSession();
   const [toggleDropDown, setToggleDropDown] = useState<boolean>(false);
 
   const [providers, setProviders] = useState<Record<
@@ -50,7 +50,7 @@ export default function Nav() {
 
       {/* Desktop Navigation */}
       <div className='sm:flex hidden'>
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className='flex gap-3 md:gap-5'>
             <Link
               href='create-prompt'
@@ -69,7 +69,7 @@ export default function Nav() {
 
             <Link href='/profile'>
               <Image
-                src='/assets/images/logo.svg'
+                src={session?.user.image || '/assets/images/logo.svg'}
                 alt='Profile link'
                 width={37}
                 height={37}
@@ -98,10 +98,10 @@ export default function Nav() {
 
       {/* Mobile Navigation */}
       <div className='sm:hidden flex relative'>
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className='flex'>
             <Image
-              src='/assets/images/logo.svg'
+              src={session?.user.image || '/assets/images/logo.svg'}
               alt='Profile link'
               width={37}
               height={37}
