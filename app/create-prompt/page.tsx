@@ -11,13 +11,8 @@ type Post = {
   tag: string;
 };
 
-type SessionType = {
-  data: Session | undefined | null;
-  status: 'loading' | 'authenticated' | 'unauthenticated';
-};
-
 export default function CreatePrompt() {
-  const { data: session }: SessionType = useSession();
+  const { data: session }: any = useSession();
   const router = useRouter();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [post, setPost] = useState<Post>({ prompt: '', tag: '' });
