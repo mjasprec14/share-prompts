@@ -12,10 +12,19 @@ export type Prompt = {
   creator: Creator;
 };
 
-export type CurrentProfileType = {
+export type Profile = {
   name: string;
   desc: string;
-  data: [];
+  data: Prompt[];
   handleEdit: () => void;
   handleDelete: () => void;
 };
+
+export type User = {
+  id: string;
+  username: string;
+  email: string;
+};
+export interface Session {
+  user: User;
+}
