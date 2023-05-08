@@ -16,8 +16,8 @@ export type Profile = {
   name: string;
   desc: string;
   data: Prompt[];
-  handleEdit: () => void;
-  handleDelete: () => void;
+  handleEdit: (value: Prompt) => void;
+  handleDelete: (value: Prompt) => void;
 };
 
 export type User = {
