@@ -11,3 +11,11 @@ export type Prompt = {
   tag: string;
   creator: Creator;
 };
+
+export type CurrentProfileType = {
+  name: string;
+  desc: string;
+  data: [];
+  handleEdit: () => void;
+  handleDelete: () => void;
+};
