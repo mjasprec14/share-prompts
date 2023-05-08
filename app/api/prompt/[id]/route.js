@@ -30,7 +30,21 @@ export async function PATCH(request, { params }) {
     existingPrompt.tag = tag;
 
     await existingPrompt.save();
+
+    return new Response(JSON.stringify(existingPrompt), { status: 200 });
   } catch (error) {
-    new Response('Failed to update Prompt', { status: 500 });
+    new Response('Failed to UPDATE Prompt', { status: 500 });
+  }
+}
+
+export async function DELETE(request, { params }) {
+  try {
+    await connectToDB();
+
+    await Prompt.findByIdAndRemove(params.id);
+
+    return new Response('Prompt deleted successfully', { status: 200 });
+  } catch (error) {
+    new Response('Failed to DELETE Prompt', { status: 500 });
   }
 }
