@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -8,8 +8,8 @@ import { Prompt } from '@typings';
 type PromptCardProps = {
   prompt: Prompt;
   handleTagClick?: (value: string) => void;
-  handleEdit?: (value: string) => void;
-  handleDelete?: (value: string) => void;
+  handleEdit?: MouseEventHandler<HTMLParagraphElement>;
+  handleDelete?: MouseEventHandler<HTMLParagraphElement>;
 };
 
 export default function PromptCard({
@@ -18,7 +18,12 @@ export default function PromptCard({
   handleEdit,
   handleDelete,
 }: PromptCardProps) {
+  const { data: session }: any = useSession();
+  const pathName = usePathname();
   const [copied, setCopied] = useState('');
+
+  const isEditable =
+    session?.user.id === prompt.creator._id && pathName === '/profile';
 
   const handleCopy = () => {
     setCopied(prompt?.prompt);
@@ -71,6 +76,23 @@ export default function PromptCard({
       >
         {prompt.tag}
       </p>
+
+      {isEditable ? (
+        <div className='mt-5 flex-center gap-4 border-t border-gray-100 pt-3'>
+          <p
+            className='font-inter text-sm green_gradient cursor-pointer'
+            onClick={handleEdit}
+          >
+            Edit
+          </p>
+          <p
+            className='font-inter text-sm orange_gradient cursor-pointer'
+            onClick={handleDelete}
+          >
+            Delete
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }
