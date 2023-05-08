@@ -5,34 +5,26 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 import UserProfile from '@components/UserProfile';
-import { Session } from 'next-auth/core/types';
 import { Prompt } from '@typings';
 
-type SessionType = {
-  data: Session | undefined | null;
-  status: 'loading' | 'authenticated' | 'unauthenticated';
-};
-
 export default function Profile() {
-  const { data: session }: SessionType = useSession();
+  const { data: session }: any = useSession();
   const [isProfile, setIsProfile] = useState<Prompt[]>([]);
   const handleEdit = () => {};
 
   const handleDelete = async () => {};
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchPosts = async () => {
       const resp = await fetch(`/api/users/${session?.user?.id}/posts`);
-
       const data = await resp.json();
-
       setIsProfile(data);
     };
 
     if (session?.user?.id) {
-      fetchProfile();
+      fetchPosts();
     }
-  }, []);
+  }, [session]);
 
   return (
     <div>
