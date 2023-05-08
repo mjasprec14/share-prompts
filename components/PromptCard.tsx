@@ -7,12 +7,16 @@ import { Prompt } from '@typings';
 
 type PromptCardProps = {
   prompt: Prompt;
-  handleTagClick: (value: string) => void;
+  handleTagClick?: (value: string) => void;
+  handleEdit?: (value: string) => void;
+  handleDelete?: (value: string) => void;
 };
 
 export default function PromptCard({
   prompt,
   handleTagClick,
+  handleEdit,
+  handleDelete,
 }: PromptCardProps) {
   const [copied, setCopied] = useState('');
 
