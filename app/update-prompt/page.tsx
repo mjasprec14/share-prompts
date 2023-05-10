@@ -33,38 +33,39 @@ export default function UpdatePrompt() {
     }
   }, [promptId]);
 
-  //   const updatePrompt = async (e: any) => {
-  //     e.preventDefault();
+  const updatePrompt = async (e: any) => {
+    e.preventDefault();
 
-  //     setSubmitting(true);
+    setSubmitting(true);
 
-  //     try {
-  //       const resp = await fetch('/api/prompt/new', {
-  //         method: 'POST',
-  //         body: JSON.stringify({
-  //           prompt: post.prompt,
-  //           userId: session?.user?.id,
-  //           tag: post.tag,
-  //         }),
-  //       });
+    if (!promptId) return alert('Prompt ID not found.');
 
-  //       if (resp.ok) {
-  //         router.push('/');
-  //       }
-  //     } catch (error) {
-  //       console.log('Failed to Create Prompt: ', error);
-  //     } finally {
-  //       setSubmitting(false);
-  //     }
-  //   };
+    try {
+      const resp = await fetch(`/api/prompt/${promptId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          prompt: post.prompt,
+          tag: post.tag,
+        }),
+      });
+
+      if (resp.ok) {
+        router.push('/');
+      }
+    } catch (error) {
+      console.log('Failed to Update Prompt: ', error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <Form
-      type='Create'
+      type='Edit'
       post={post}
       setPost={setPost}
       submitting={submitting}
-      handleSubmit={() => {}}
+      handleSubmit={updatePrompt}
     />
   );
 }
