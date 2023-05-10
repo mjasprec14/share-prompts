@@ -9,16 +9,14 @@ import { Prompt } from '@typings';
 
 export default function Profile() {
   const { data: session }: any = useSession();
-  const [isProfile, setIsProfile] = useState<Prompt[]>([]);
-  const handleEdit = () => {};
-
-  const handleDelete = async () => {};
+  const [prompts, setPrompts] = useState<Prompt[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchPosts = async () => {
       const resp = await fetch(`/api/users/${session?.user?.id}/posts`);
       const data = await resp.json();
-      setIsProfile(data);
+      setPrompts(data);
     };
 
     if (session?.user?.id) {
@@ -26,12 +24,18 @@ export default function Profile() {
     }
   }, [session]);
 
+  const handleEdit = (prompt: Prompt): void => {
+    router.push(`/update-prompt?id=${prompt._id}`);
+  };
+
+  const handleDelete = async (prompts: Prompt): Promise<void> => {};
+
   return (
     <div>
       <UserProfile
         name='My'
         desc='Welcome to your personalized page'
-        data={isProfile}
+        data={prompts}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
       />
