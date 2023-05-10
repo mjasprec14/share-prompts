@@ -74,7 +74,7 @@ export default function PromptCard({
         className='font-inter text-sm blue_gradient cursor-pointer'
         onClick={() => handleTagClick && handleTagClick(prompt.tag)}
       >
-        {prompt.tag}
+        #{prompt.tag}
       </p>
 
       {isEditable ? (

@@ -28,7 +28,27 @@ export default function Profile() {
     router.push(`/update-prompt?id=${prompt._id}`);
   };
 
-  const handleDelete = async (prompts: Prompt): Promise<void> => {};
+  const handleDelete = async (prompt: Prompt): Promise<void> => {
+    const hasConfirmed = confirm(
+      'Are you sure you want to delete this prompt?'
+    );
+
+    if (hasConfirmed) {
+      try {
+        await fetch(`/api/prompt/${prompt._id.toString()}`, {
+          method: 'DELETE',
+        });
+
+        const filteredPrompts = prompts.filter(
+          (post) => post._id !== prompt._id
+        );
+
+        setPrompts(filteredPrompts);
+      } catch (error: any) {
+        throw new Error('Failed to Delete Prompt: ', error);
+      }
+    }
+  };
 
   return (
     <div>
